@@ -10,12 +10,12 @@ class Db(object):
 
 
     def __getattr__(self, item):
+        item_lower = item.lower()
         if item not in self.tables:
-            self.tables[item] = DbTable(item)
-        return self.tables[item]
+            self.tables[item_lower] = DbTable(item_lower)
+        return self.tables[item_lower]
 
     def fetchall(self):
-        print self.tables
         #self.cursor.execute()
         return [DbResponse({'id':1, 'login': 'test'}),]
 
@@ -38,36 +38,34 @@ class DbTable(DbItem):
 
     def __getattr__(self, item):
         if item not in self.__dict__:
-            self.fields[item] = DbField(item)
+            self.fields[item] = DbField(self, item)
         return self.fields[item]
 
 
 
 class DbField(DbItem):
 
+    def __init__(self, table, name):
+        self.table = table
+        super(DbField, self).__init__(name)
+
     def __eq__(self, other):
-        print "eq %s" % other
-        return hash(self)
+        return self, '=', other
 
     def __ne__(self, other):
-        print "ne %s" % other
-        return hash(self)
+        return self, '!=', other
 
     def __le__(self, other):
-        print "le %s" % other
-        return hash(self)
+        return self, '<=', other
 
     def __ge__(self, other):
-        print "ge %s" % other
-        return hash(self)
+        return self, '>=', other
 
     def __lt__(self, other):
-        print "lt %s" % other
-        return hash(self)
+        return self, '<', other
 
     def __gt__(self, other):
-        print "gt %s" % other
-        return hash(self)
+        return self, '>', other
 
 
 class DbResponse(object):
