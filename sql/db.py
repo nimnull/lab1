@@ -15,6 +15,7 @@ class Db(object):
         return self.tables[item]
 
     def fetchall(self):
+        print self.tables
         #self.cursor.execute()
         return [DbResponse({'id':1, 'login': 'test'}),]
 
