@@ -27,4 +27,4 @@ class SqlBuilder(object):
         return self
 
     def FetchFrom(self, db):
-        return db.driver.fetchall()
+        return db.fetchall()

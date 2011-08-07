@@ -1,5 +1,6 @@
+from MySQLdb.cursors import DictCursor
 import sql
-import _mysql
+import MySQLdb
 from datetime import datetime
 
 __author__ = 'nimnull'
@@ -8,7 +9,7 @@ __author__ = 'nimnull'
 def main():
 
     since = datetime.now()
-    db = sql.Db(driver=_mysql, user='root', host='localhost')
+    db = sql.Db(user='root', host='localhost')
     query = sql.SqlBuilder()
     query.Select(db.Users.id, db.Users.login).\
             From(db.Users).\
