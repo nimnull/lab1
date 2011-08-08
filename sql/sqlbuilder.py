@@ -3,7 +3,7 @@ from exception import SqlBuilderException
 class SqlBuilder(object):
     
     def __init__(self):
-        pass
+        self.conditions = []
 
     def Select(self, *args):
         if getattr(self, 'select_columns', False):
@@ -24,11 +24,19 @@ class SqlBuilder(object):
             raise SqlBuilderException('Where used before Select')
         if not len(self.from_tables):
             raise SqlBuilderException('Where used before From')
+
         self.conditions = args
         return self
 
     def And(self, *args):
         self.conditions += args
+        return self
+
+    def Or(self, *args):
+        if getattr(self, 'conditions_or', False):
+            self.conditions_or += args
+        else:
+            self.conditions_or = args
         return self
 
     def Delete(self):
